@@ -10,23 +10,27 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
+  <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
+    <ion-list>
 
-    <ion-item>
-      <ion-label floating>Username</ion-label>
-      <ion-input type="text"></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label floating>Username</ion-label>
+        <ion-input type="text" formControlName="username"></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label floating>Password</ion-label>
-      <ion-input type="password"></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label floating>Password</ion-label>
+        <ion-input type="password" formControlName="password"></ion-input>
+      </ion-item>
 
-    <div padding="">
-      <button class="button-block">Login</button>  
-      <br>
-      <button (click)="openPage(signupPage)" clear>Create an account</button>
-    </div>
-    
-  </ion-list>
+      <div padding="">
+        <button class="button-block">Login</button>
+      </div>
+
+    </ion-list>
+  </form>
+
+  <div padding="">
+    <button (ngClick)="openPage(signupPage)" clear>Create an account</button>
+  </div>
 </ion-content>
