@@ -4,6 +4,7 @@ import {StatusBar} from 'ionic-native';
 //import {TabsPage} from './pages/tabs/tabs';
 import {LoginPage} from './pages/login/login';
 import {SignupPage} from './pages/signup/signup';
+import {SetPage} from './pages/set/set';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class MyApp {
     this.pages = [
         { title: 'Home', component: LoginPage },
         { title: 'Signup', component: SignupPage },
+        { title: 'Sets', component: SetPage },
     ];
     this.rootPage = LoginPage;
 
