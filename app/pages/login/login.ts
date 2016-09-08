@@ -11,7 +11,7 @@ export class LoginPage {
   private signupPage: any;
   loginForm: FormGroup;
 
-  constructor(public nav: NavController, public alertFo: AlertController, form: FormBuilder) {
+  constructor(public nav: NavController, form: FormBuilder, private alertCtrl: AlertController) {
      this.signupPage = SignupPage
      this.nav = nav
 
@@ -26,24 +26,15 @@ export class LoginPage {
   }
 
   login(formData){
-    DB.loginUser(formData, function(err, response) {
-      console.log('something went wrong')
-      // console.log(err)
-      // console.log(response)
+    let that = this
 
-      let coolAlert = this.alertFo.create({
-        title: "Cool alert",
-        message: "I am a cool alert"
+    DB.loginUser(formData, (err, response) => {
+      let alert = that.alertCtrl.create({
+        title: 'Sorry',
+        subTitle: err.message,
+        buttons: ['Ok']
       });
-      coolAlert.present();
-      //console.log(this.alertCtrl)
-
-      // let alert = alertCtrl.create({
-      //   title: "Error",
-      //   subTitle: err.message,
-      //   buttons: ['OK']
-      // });
-      // alert.present();
+      alert.present();
     })
   }
 

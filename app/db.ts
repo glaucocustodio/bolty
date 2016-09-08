@@ -23,12 +23,22 @@ export class DB {
   }
 
   static loginUser(userData, onError) {
+    console.log("logging..")
     console.log(userData)
-    // console.log(err)
-    // console.log(response)
 
-    DB.con().login(userData['username'], userData['password'], function(err, response) {
+    DB.con().login(userData['username'], userData['password']).catch(function(err, response) {
       onError(err, response)
     })
+  }
+
+  static signupUser(userData, onError, onSuccess) {
+    console.log("singing up...")
+    console.log(userData)
+
+    DB.con().signup(userData['username'], userData['password']).then(function(response){
+      onSuccess(response)
+    }).catch(function(err, response) {
+      onError(err, response)
+    }) 
   }
 }
