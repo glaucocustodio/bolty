@@ -14,6 +14,10 @@
 </ion-header>
 
 
-<ion-content padding>
-  sets here
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let set of sets" (click)="enter(set)">
+      {{set.doc.name}}
+    </ion-item>
+  </ion-list>
 </ion-content>

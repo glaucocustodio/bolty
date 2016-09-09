@@ -33,8 +33,6 @@ export class MyApp {
   }
 
   openPage(page) {
-    console.log('open PAge mmm')
-
     this.menu.close()
     // Using this.nav.setRoot() causes
     // Tabs to not show!

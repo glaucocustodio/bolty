@@ -16,6 +16,6 @@ export class NewSetPage {
   }
 
   createSet(formData) {
-    console.log(formData)
+    DB.put("set", formData)
   }
 }

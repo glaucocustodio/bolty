@@ -9,6 +9,6 @@
 - `add-cors-to-couchdb`
 - `npm install`
 - Run CouchDB `couchdb`
-- `ionic serve`
+- `add-cors-to-couchdb && ionic serve`
 
 

@@ -26,10 +26,8 @@ export class LoginPage {
   }
 
   login(formData){
-    let that = this
-
     DB.loginUser(formData, (err, response) => {
-      let alert = that.alertCtrl.create({
+      let alert = this.alertCtrl.create({
         title: 'Sorry',
         subTitle: err.message,
         buttons: ['Ok']

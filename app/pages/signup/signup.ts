@@ -17,7 +17,6 @@ export class SignupPage {
   }
 
   signup(formData){
-    let that = this
     let message: string
 
     DB.signupUser(formData, (err, response) => {
@@ -29,7 +28,7 @@ export class SignupPage {
       } else {
         message = err.message
       }
-      let alert = that.alertCtrl.create({
+      let alert = this.alertCtrl.create({
         title: 'Sorry',
         subTitle: message,
         buttons: ['Ok']

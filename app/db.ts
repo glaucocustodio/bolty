@@ -14,10 +14,13 @@ export class DB {
 
   static con(){
     const remoteDbHost = "http://127.0.0.1:5984/bolty"
-    const db = new PouchDB(remoteDbHost, {skipSetup: true})
+    //, {skipSetup: true}
+    const db = new PouchDB(remoteDbHost)
+    db.info() // automatically creates the database
 
-    // var local = new PouchDB('bolty_db_local');
-    // local.sync(db, {live: true, retry: true}).on('error', console.log.bind(console));
+    const local = new PouchDB('bolty_db_local');
+    //local.sync(db, {live: true, retry: true})
+    //local.sync(db, {live: true, retry: true})//.on('error', console.log.bind(console));
 
     return db
   }
@@ -40,5 +43,36 @@ export class DB {
     }).catch(function(err, response) {
       onError(err, response)
     }) 
+  }
+
+  static put(type, obj) {
+    console.log(`putting ${type}...`) 
+
+    obj = Object.assign(
+      obj,
+      {
+        _id: `${type}-${new Date().toISOString()}`,
+        type: type
+      }
+    )
+
+    console.log(obj)
+
+    DB.con().put(obj).then((resp) => {
+      console.log("success " + resp)
+    }).catch((err) => {
+      console.log(`Failed to put ${type} ` + err)
+    });
+  }
+
+  static all(type, onSuccess) {
+    DB.con().allDocs({
+      include_docs: true, 
+      //descending: true, 
+      startkey: 'set',
+      endkey: 'set\uffff'
+    }).then((result) => {
+      onSuccess(result) 
+    })
   }
 }
