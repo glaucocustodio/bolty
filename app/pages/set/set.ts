@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, ModalController } from 'ionic-angular';
 import {NewSetPage} from '../new-set/new-set';
+import {CardPage} from '../card/card';
 import {DB} from '../../db';
 
 @Component({
@@ -22,7 +23,7 @@ export class SetPage {
   }
 
   enter(set) {
-
+    this.navCtrl.push(CardPage, { set: set });
   }
 
 }

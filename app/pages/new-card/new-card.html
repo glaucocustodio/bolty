@@ -1,0 +1,30 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>New card</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form [formGroup]="newCardForm" (ngSubmit)="createCard(newCardForm.value)">
+    <ion-list>
+
+       <ion-item>
+         <ion-label stacked>Front</ion-label>
+         <ion-textarea formControlName="front"></ion-textarea>
+       </ion-item>
+
+       <ion-item>
+         <ion-label stacked>Back</ion-label>
+         <ion-textarea formControlName="back"></ion-textarea>
+       </ion-item>
+
+      <div padding="">
+        <button class="button-block">Create</button>
+      </div>
+
+    </ion-list>
+  </form>
+</ion-content>

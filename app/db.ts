@@ -42,11 +42,11 @@ export class DB {
       onSuccess(response)
     }).catch(function(err, response) {
       onError(err, response)
-    }) 
+    })
   }
 
   static put(type, obj) {
-    console.log(`putting ${type}...`) 
+    console.log(`putting ${type}...`)
 
     obj = Object.assign(
       obj,
@@ -67,12 +67,12 @@ export class DB {
 
   static all(type, onSuccess) {
     DB.con().allDocs({
-      include_docs: true, 
-      //descending: true, 
-      startkey: 'set',
-      endkey: 'set\uffff'
+      include_docs: true,
+      //descending: true,
+      startkey: type,
+      endkey: `${type}\uffff`
     }).then((result) => {
-      onSuccess(result) 
+      onSuccess(result)
     })
   }
 }

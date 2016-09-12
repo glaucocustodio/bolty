@@ -1,0 +1,24 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Cards of "{{set.name}}"</ion-title>
+
+    <ion-buttons end>
+      <button (click)="openModal()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-searchbar (ionInput)="searchItems($event)"></ion-searchbar>
+
+  <ion-list>
+    <ion-item *ngFor="let card of cards" (click)="enter(card)">
+      {{card.doc.front}}
+    </ion-item>
+  </ion-list>
+</ion-content>
