@@ -16,9 +16,31 @@
 <ion-content padding>
   <ion-searchbar (ionInput)="searchItems($event)"></ion-searchbar>
 
-  <ion-list>
-    <ion-item *ngFor="let card of cards" (click)="enter(card)">
-      {{card.doc.front}}
-    </ion-item>
-  </ion-list>
+  <ion-card *ngFor="let card of cards">
+    <ion-card-header>
+      Front
+    </ion-card-header>
+    <ion-card-content>
+      {{card.front}}
+    </ion-card-content>
+    <ion-card-header>
+      Back
+    </ion-card-header>
+    <ion-card-content>
+      {{card.back}}
+    </ion-card-content>
+
+    <ion-row>
+      <ion-col>
+        <button (click)="edit(card)" clear small>
+          <ion-icon name="create"></ion-icon>
+          <div>Edit</div>
+        </button>
+        <button (click)="delete(card)" danger clear small>
+          <ion-icon name="trash"></ion-icon>
+          <div>Delete</div>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
 </ion-content>

@@ -11,8 +11,19 @@ export class SetPage {
   sets: any;
 
   constructor(private navCtrl: NavController, public modalCtrl: ModalController) {
-    DB.all("set", (result) => {
-      this.sets = result.rows
+    DB.con().changes({
+      since: 'now',
+      live: true,
+    }).on('change', (_change) => {
+      this.getSets()
+    })
+
+    this.getSets()
+  }
+
+  getSets() {
+    DB.all("set", {}, (result) => {
+      this.sets = result
       console.log(result)
     })
   }

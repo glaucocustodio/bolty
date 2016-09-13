@@ -1,8 +1,8 @@
 # Bolty :zap:
-A flash card app built with Ionic 2.
+A flash card app built with Ionic 2 and CouchDB 2.
 
 ## Goal
-Create a progressive web app with the aforementioned framework.
+Create a progressive web app with these amazing technologies.
 
 ## Features
 * offline support

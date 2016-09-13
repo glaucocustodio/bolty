@@ -1,5 +1,6 @@
 let PouchDB = require('pouchdb');
 PouchDB.plugin(require('pouchdb-authentication'));
+PouchDB.plugin(require('pouchdb-find'));
 
 let instance = null
 
@@ -65,14 +66,17 @@ export class DB {
     });
   }
 
-  static all(type, onSuccess) {
-    DB.con().allDocs({
-      include_docs: true,
-      //descending: true,
-      startkey: type,
-      endkey: `${type}\uffff`
+  static all(type, filters = {}, onSuccess) {
+    DB.con().find({
+      selector: Object.assign({type: type}, filters)
     }).then((result) => {
-      onSuccess(result)
+      onSuccess(result.docs)
+    })
+  }
+
+  static delete(_id) {
+    DB.con().get(_id).then((doc) => {
+      return DB.con().remove(doc)
     })
   }
 }

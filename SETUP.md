@@ -1,14 +1,13 @@
-# Setup
-
+# App
 - Install Node
 - `npm install -g ionic@beta`
 - `npm install -g gulp-cli`
 - `npm install -g typings`
 - `npm install -g add-cors-to-couchdb # may require sudo`
-- `brew install couchdb`
-- `add-cors-to-couchdb`
 - `npm install`
-- Run CouchDB `couchdb`
 - `add-cors-to-couchdb && ionic serve`
 
-
+# Database
+- Install Docker
+- `docker pull klaemo/couchdb:2.0-single` (see more: https://goo.gl/rdrS63)
+- Run CouchDB 2 container: `docker run -p 5984:5984 -v $(pwd):/opt/couchdb/data klaemo/couchdb:2.0-single`
