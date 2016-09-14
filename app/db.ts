@@ -26,11 +26,15 @@ export class DB {
     return db
   }
 
-  static loginUser(userData, onError) {
+  static loginUser(userData, onError, onSuccess) {
     console.log("logging..")
     console.log(userData)
 
-    DB.con().login(userData['username'], userData['password']).catch(function(err, response) {
+    DB.con().login(userData['username'], userData['password']).then(function(response){
+      DB.con().getUser(userData['username']).then(function(response){
+        onSuccess(response)
+      })
+    }).catch(function(err, response) {
       onError(err, response)
     })
   }

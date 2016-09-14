@@ -1,8 +1,10 @@
 import {Component, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NavController, AlertController} from 'ionic-angular';
-import {SignupPage} from '../signup/signup';
 import {DB} from '../../db';
+import {UserSession} from '../../providers/user_session';
+import {SignupPage} from '../signup/signup';
+import {SetPage} from '../set/set';
 
 @Component({
   templateUrl: 'build/pages/login/login.html',
@@ -11,9 +13,8 @@ export class LoginPage {
   private signupPage: any;
   loginForm: FormGroup;
 
-  constructor(public nav: NavController, form: FormBuilder, private alertCtrl: AlertController) {
+  constructor(public nav: NavController, form: FormBuilder, private alertCtrl: AlertController, public userSession: UserSession) {
      this.signupPage = SignupPage
-     this.nav = nav
 
       // name should match [ngFormModel] in your html
       // Setting fields as required
@@ -33,6 +34,9 @@ export class LoginPage {
         buttons: ['Ok']
       });
       alert.present();
+    }, (response) => {
+      this.userSession.set(response)
+      this.nav.push(SetPage);
     })
   }
 
