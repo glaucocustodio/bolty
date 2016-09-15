@@ -46,6 +46,12 @@ export class DB {
     })
   }
 
+  get(doc) {
+    this.con.get(doc._id).then((doc) => {
+      console.log(doc)
+    })
+  }
+
   put(type, obj) {
     console.log(`putting ${type}...`)
 
@@ -62,6 +68,7 @@ export class DB {
     this.con.put(obj).then((resp) => {
       console.log("success " + resp)
     }).catch((err) => {
+      console.log(err)
       console.log(`Failed to put ${type} ` + err)
     });
   }

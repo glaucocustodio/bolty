@@ -1,19 +1,36 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {DB} from '../../providers/db';
 
-/*
-  Generated class for the EditCardPage page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   templateUrl: 'build/pages/edit-card/edit-card.html',
+  providers: [DB]
 })
 export class EditCardPage {
+  editCardForm: FormGroup;
+  card: any;
 
-  constructor(private navCtrl: NavController) {
+  constructor(form: FormBuilder, private navCtrl: NavController, private navParams: NavParams, private db: DB) {
+    this.card = navParams.get("card")
+    console.log(this.card)
 
+    this.editCardForm = form.group({
+      front: [this.card.front, Validators.required],
+      back: [this.card.back, Validators.required]
+    })
   }
 
+  editCard(formData) {
+    console.log(formData)
+
+    //this.db.get(formData)
+
+    let obj = Object.assign(
+      this.card,
+      formData
+    )
+    console.log(obj)
+    this.db.put("card", obj)
+  }
 }
