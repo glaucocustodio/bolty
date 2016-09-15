@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {DB} from '../../db';
+import {DB} from '../../providers/db';
 
 @Component({
   templateUrl: 'build/pages/new-card/new-card.html',
+  providers: [DB]
 })
 export class NewCardPage {
   newCardForm: FormGroup;
   set: any;
 
-  constructor(form: FormBuilder, private navCtrl: NavController, private navParams: NavParams) {
+  constructor(form: FormBuilder, private navCtrl: NavController, private navParams: NavParams, private db: DB) {
     this.set = navParams.get("set")
 
     this.newCardForm = form.group({
@@ -26,7 +27,6 @@ export class NewCardPage {
         set_id: this.set._id
       }
     )
-    console.log(obj)
-    DB.put("card", obj)
+    this.db.put("card", obj)
   }
 }

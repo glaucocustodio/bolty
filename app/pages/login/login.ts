@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NavController, AlertController} from 'ionic-angular';
-import {DB} from '../../db';
+import {DB} from '../../providers/db';
 import {UserSession} from '../../providers/user_session';
 import {SignupPage} from '../signup/signup';
 import {SetPage} from '../set/set';
@@ -13,7 +13,7 @@ export class LoginPage {
   private signupPage: any;
   loginForm: FormGroup;
 
-  constructor(public nav: NavController, form: FormBuilder, private alertCtrl: AlertController, public userSession: UserSession) {
+  constructor(private nav: NavController, form: FormBuilder, private alertCtrl: AlertController, private userSession: UserSession, private db: DB) {
      this.signupPage = SignupPage
 
       // name should match [ngFormModel] in your html
@@ -27,7 +27,7 @@ export class LoginPage {
   }
 
   login(formData){
-    DB.loginUser(formData, (err, response) => {
+    this.db.loginUser(formData, (err, response) => {
       let alert = this.alertCtrl.create({
         title: 'Sorry',
         subTitle: err.message,

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
 import {NewCardPage} from '../new-card/new-card';
-import {DB} from '../../db';
+import {DB} from '../../providers/db';
 
 @Component({
   templateUrl: 'build/pages/card/card.html',
@@ -11,13 +11,10 @@ export class CardPage {
   cards: any;
   searchTerm: any;
 
-  constructor(private navCtrl: NavController, private navParams: NavParams, public modalCtrl: ModalController, public alertCtrl: AlertController) {
+  constructor(private navCtrl: NavController, private navParams: NavParams, public modalCtrl: ModalController, public alertCtrl: AlertController, private db: DB) {
     this.set = navParams.get("set")
 
-    DB.con().changes({
-      since: 'now',
-      live: true,
-    }).on('change', (_change) => {
+    this.db.onChanges((_change) => {
       this.init()
     })
 
@@ -25,7 +22,7 @@ export class CardPage {
   }
 
   init(callback = null) {
-    DB.all("card", {set_id: this.set._id}, (result) => {
+    this.db.all("card", {set_id: this.set._id}, (result) => {
       this.cards = result
 
       if (callback != null) {
@@ -55,7 +52,7 @@ export class CardPage {
         {
           text: 'Yes, I am sure',
           handler: () => {
-            DB.delete(card._id)
+            this.db.delete(card._id)
           }
         }
       ]

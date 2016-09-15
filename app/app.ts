@@ -6,11 +6,12 @@ import {LoginPage} from './pages/login/login';
 import {SignupPage} from './pages/signup/signup';
 import {SetPage} from './pages/set/set';
 import {UserSession} from './providers/user_session';
+import {DB} from './providers/db';
 
 
 @Component({
   templateUrl: './build/app.html',
-  providers: [NavController, UserSession]
+  providers: [NavController, UserSession, DB]
 })
 export class MyApp {
   @ViewChild('nav') nav: NavController;
@@ -18,7 +19,7 @@ export class MyApp {
   private pages: any[];
   private protectedPages: any[];
 
-  constructor(private platform: Platform, private menu: MenuController, private userSession: UserSession, public events: Events) {
+  constructor(private platform: Platform, private menu: MenuController, private userSession: UserSession, private events: Events) {
     this.menu = menu;
     this.pages = [
       { title: 'Signup', component: SignupPage },

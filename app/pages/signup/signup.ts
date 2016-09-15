@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController, AlertController} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {DB} from '../../db';
+import {DB} from '../../providers/db';
 import {UserSession} from '../../providers/user_session';
 import {SetPage} from '../set/set';
 
@@ -11,7 +11,7 @@ import {SetPage} from '../set/set';
 export class SignupPage {
   signupForm: FormGroup;
 
-  constructor(public nav: NavController, form: FormBuilder, private alertCtrl: AlertController, public userSession: UserSession) {
+  constructor(private nav: NavController, form: FormBuilder, private alertCtrl: AlertController, private userSession: UserSession, private db: DB) {
     this.signupForm = form.group({
       username: ["", Validators.required],
       password: ["", Validators.required]
@@ -21,7 +21,7 @@ export class SignupPage {
   signup(formData){
     let message: string
 
-    DB.signupUser(formData, (err, response) => {
+    this.db.signupUser(formData, (err, response) => {
 
       if (err.name === 'conflict') {
         message = 'This username already exists'
@@ -38,7 +38,7 @@ export class SignupPage {
       alert.present();
 
     }, (response) => {
-      DB.loginUser(formData, (err, response) => {}, (response) => {
+      this.db.loginUser(formData, (err, response) => {}, (response) => {
         this.userSession.set(response)
         this.nav.push(SetPage);
       })
