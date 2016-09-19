@@ -40,7 +40,6 @@ export class CardPage {
   }
 
   edit(card) {
-    console.log(card)
     let modal = this.modalCtrl.create(EditCardPage, {card: card});
     modal.present();
   }

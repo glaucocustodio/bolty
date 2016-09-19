@@ -19,7 +19,7 @@ export class MyApp {
   private pages: any[];
   private protectedPages: any[];
 
-  constructor(private platform: Platform, private menu: MenuController, private userSession: UserSession, private events: Events) {
+  constructor(private platform: Platform, private menu: MenuController, private userSession: UserSession, private events: Events, private db: DB) {
     this.menu = menu;
     this.pages = [
       { title: 'Signup', component: SignupPage },
@@ -48,6 +48,15 @@ export class MyApp {
     this.events.subscribe('user:login', () => {
       this.enableMenu(true);
     });
+    this.events.subscribe('user:logout', () => {
+      this.enableMenu(false);
+    });
+  }
+
+  logout() {
+    console.log("logout user")
+    this.db.logoutUser()
+    this.openPage(LoginPage)
   }
 
   openPage(page) {

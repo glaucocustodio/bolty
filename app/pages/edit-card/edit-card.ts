@@ -22,7 +22,7 @@ export class EditCardPage {
   }
 
   editCard(formData) {
-    console.log(formData)
+    //console.log(formData)
 
     //this.db.get(formData)
 
@@ -30,7 +30,7 @@ export class EditCardPage {
       this.card,
       formData
     )
-    console.log(obj)
-    this.db.put("card", obj)
+    //console.log(obj)
+    this.db.update("card", obj)
   }
 }

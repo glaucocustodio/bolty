@@ -5,19 +5,19 @@ import { Events } from 'ionic-angular';
 export class DB {
   private con: any
 
-  constructor(public events: Events) {
+  constructor(private events: Events) {
     let PouchDB = require('pouchdb');
     PouchDB.plugin(require('pouchdb-authentication'));
     PouchDB.plugin(require('pouchdb-find'));
 
     const remoteDbHost = "http://127.0.0.1:5984/bolty"
-    const db = new PouchDB(remoteDbHost)
+    const remoteDB = new PouchDB(remoteDbHost)
     const local = new PouchDB('bolty_db_local');
 
     //local.sync(db, {live: true, retry: true})
     //local.sync(db, {live: true, retry: true})//.on('error', console.log.bind(console));
 
-    this.con = db
+    this.con = remoteDB
   }
 
   loginUser(userData, onError, onSuccess) {
@@ -26,13 +26,20 @@ export class DB {
 
     this.con.login(userData['username'], userData['password']).then((response) => {
       this.con.getUser(userData['username']).then((response) => {
-
+        this.events.publish('user:login');
         onSuccess(response)
       })
 
     }).catch((err, response) => {
       onError(err, response)
     })
+  }
+
+  logoutUser() {
+    this.con.logout().then((response) => {
+      this.events.publish('user:logout');
+    })
+
   }
 
   signupUser(userData, onError, onSuccess) {
@@ -66,10 +73,26 @@ export class DB {
     console.log(obj)
 
     this.con.put(obj).then((resp) => {
-      console.log("success " + resp)
+      console.log("Success to put " + resp)
     }).catch((err) => {
       console.log(err)
       console.log(`Failed to put ${type} ` + err)
+    });
+  }
+
+  update(type, obj) {
+    obj = Object.assign(
+      obj,
+      {
+        type: type
+      }
+    )
+    console.log(obj)
+    this.con.put(obj).then((resp) => {
+      console.log("Success to update " + resp)
+    }).catch((err) => {
+      console.log(err)
+      console.log(`Failed to update ${type} ` + err)
     });
   }
 

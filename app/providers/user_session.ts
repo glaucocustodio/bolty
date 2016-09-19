@@ -1,17 +1,14 @@
 import {Injectable} from '@angular/core';
-import { Events } from 'ionic-angular';
 
 @Injectable()
 export class UserSession {
   current = {}
 
-  constructor(public events: Events) {
+  constructor() {
   }
 
   set(value) {
-    console.log(typeof value)
     this.current = value
-    this.events.publish('user:login');
   }
   get() {
     return this.current
