@@ -24,7 +24,8 @@ export class NewCardPage {
     let obj = Object.assign(
       formData,
       {
-        set_id: this.set._id
+        set_id: this.set._id,
+        memorized: false
       }
     )
     this.db.put("card", obj)

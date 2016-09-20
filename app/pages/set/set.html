@@ -16,8 +16,18 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let set of sets" (click)="enter(set)">
+    <ion-item *ngFor="let set of sets">
       {{set.name}}
+
+      <button item-right (click)="enter(set)" clear small>
+        <ion-icon name="create"></ion-icon>
+        <div>Edit</div>
+      </button>
+      <button item-right (click)="memorize(set)" clear small>
+        <ion-icon name="book"></ion-icon>
+        <div>Memorize</div>
+      </button>
     </ion-item>
+
   </ion-list>
 </ion-content>

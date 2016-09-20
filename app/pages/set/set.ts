@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, ModalController } from 'ionic-angular';
 import {NewSetPage} from '../new-set/new-set';
 import {CardPage} from '../card/card';
+import {MemorizationPage} from '../memorization/memorization';
 import {DB} from '../../providers/db';
 import {UserSession} from '../../providers/user_session';
 
@@ -33,6 +34,10 @@ export class SetPage {
 
   enter(set) {
     this.navCtrl.push(CardPage, { set: set });
+  }
+
+  memorize(set) {
+    this.navCtrl.push(MemorizationPage, { set: set });
   }
 
 }

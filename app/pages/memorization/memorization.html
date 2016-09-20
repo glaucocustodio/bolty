@@ -1,0 +1,34 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Memorization</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card *ngFor="let card of cards" (tap)="onTap()" (swipeleft)="onSwipeToLeft($event)" (swiperight)="onSwipeToRight($event)" [hidden]="card._id != activeCard._id">
+    <ion-card-content text-center [hidden]="!showFront">
+      {{card.front}}
+    </ion-card-content>
+    <ion-card-content text-center [hidden]="showFront">
+      {{card.back}}
+    </ion-card-content>
+
+    <ion-card-content text-center>
+      <button (click)="memorized(card)" clear small danger>
+        <ion-icon name="close"></ion-icon>
+        <div>No</div>
+      </button>
+      <button (click)="notMemorized(card)" clear small>
+        <ion-icon name="checkmark"></ion-icon>
+        <div>Yes</div>
+      </button>
+    </ion-card-content>
+
+    <!-- <ion-card-footer text-center> -->
+
+    <!-- </ion-card-footer> -->
+  </ion-card>
+</ion-content>
