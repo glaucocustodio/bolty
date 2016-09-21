@@ -96,6 +96,25 @@ export class DB {
     });
   }
 
+  updateAll(type, filters = {}, toChange) {
+    console.log("updateAll " + type)
+    //console.log(filters)
+    this.all(type, filters, (result) => {
+      let changed = result.map((c) => {
+        //console.log(c)
+        return Object.assign(
+          c,
+          toChange
+        )
+      })
+      console.log(changed)
+      this.con.bulkDocs(changed)
+      // .then(() => {
+      //   console.log("sucesso")
+      // })
+    })
+  }
+
   all(type, filters = {}, onSuccess) {
     this.con.find({
       selector: Object.assign({type: type}, filters)

@@ -40,4 +40,8 @@ export class SetPage {
     this.navCtrl.push(MemorizationPage, { set: set });
   }
 
+  reset(set) {
+    this.db.updateAll('card', {set_id: set._id}, {memorized: false})
+  }
+
 }

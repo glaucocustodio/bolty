@@ -8,27 +8,40 @@
 
 
 <ion-content padding>
-  <ion-card *ngFor="let card of cards" (tap)="onTap()" (swipeleft)="onSwipeToLeft($event)" (swiperight)="onSwipeToRight($event)" [hidden]="card._id != activeCard._id">
-    <ion-card-content text-center [hidden]="!showFront">
+  <ion-card *ngFor="let card of cards" (swipeleft)="onSwipeToLeft($event)" (swiperight)="onSwipeToRight($event)" [hidden]="card._id != activeCard._id">
+    <ion-card-content text-center [hidden]="!showFront || showResults" (tap)="onTap()">
       {{card.front}}
     </ion-card-content>
-    <ion-card-content text-center [hidden]="showFront">
+    <ion-card-content text-center [hidden]="showFront || showResults" (tap)="onTap()">
       {{card.back}}
     </ion-card-content>
 
-    <ion-card-content text-center>
-      <button (click)="memorized(card)" clear small danger>
+    <ion-card-content text-center [hidden]="showResults">
+      <button (click)="notMemorized(card)" clear small danger>
         <ion-icon name="close"></ion-icon>
-        <div>No</div>
+        <!-- <div>No</div> -->
       </button>
-      <button (click)="notMemorized(card)" clear small>
+      <button (click)="memorized(card)" clear small>
         <ion-icon name="checkmark"></ion-icon>
-        <div>Yes</div>
       </button>
     </ion-card-content>
 
-    <!-- <ion-card-footer text-center> -->
+    <ion-card-content text-center [hidden]="!showResults">
+      <ion-card-title>
+        Total number of cards
+      </ion-card-title>
+      <p>{{cards.length}}</p>
+      <ion-card-title>
+        Cards memorized
+      </ion-card-title>
+      <p>{{memorizedCards}}</p>
+      <ion-card-title>
+        Cards to memorize
+      </ion-card-title>
+      <p>{{cards.length - memorizedCards}}</p>
+    </ion-card-content>
 
-    <!-- </ion-card-footer> -->
   </ion-card>
+
+  <p [hidden]="cards.length > 0" text-center>There are no cards to memorize. Reset the set to start again.</p>
 </ion-content>
