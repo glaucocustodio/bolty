@@ -4,28 +4,32 @@ import { Events } from 'ionic-angular';
 @Injectable()
 export class DB {
   private con: any
+  private remoteCon: any
 
   constructor(private events: Events) {
     let PouchDB = require('pouchdb');
     PouchDB.plugin(require('pouchdb-authentication'));
     PouchDB.plugin(require('pouchdb-find'));
 
-    const remoteDbHost = "http://127.0.0.1:5984/bolty"
+    const remoteDbHost = "http://198.199.78.214:5984/bolty"
     const remoteDB = new PouchDB(remoteDbHost)
     const local = new PouchDB('bolty_db_local');
 
-    //local.sync(db, {live: true, retry: true})
+    remoteDB.sync(local, {live: true, retry: true}).on("change", (c) => {
+      console.log("mudou: " + c)
+    })
     //local.sync(db, {live: true, retry: true})//.on('error', console.log.bind(console));
 
-    this.con = remoteDB
+    this.remoteCon = remoteDB
+    this.con = local
   }
 
   loginUser(userData, onError, onSuccess) {
     console.log("logging..")
     console.log(userData)
 
-    this.con.login(userData['username'], userData['password']).then((response) => {
-      this.con.getUser(userData['username']).then((response) => {
+    this.remoteCon.login(userData['username'], userData['password']).then((response) => {
+      this.remoteCon.getUser(userData['username']).then((response) => {
         this.events.publish('user:login');
         onSuccess(response)
       })
@@ -36,7 +40,7 @@ export class DB {
   }
 
   logoutUser() {
-    this.con.logout().then((response) => {
+    this.remoteCon.logout().then((response) => {
       this.events.publish('user:logout');
     })
 
@@ -46,7 +50,7 @@ export class DB {
     console.log("singing up...")
     console.log(userData)
 
-    this.con.signup(userData['username'], userData['password']).then((response) => {
+    this.remoteCon.signup(userData['username'], userData['password']).then((response) => {
       onSuccess(response)
     }).catch((err, response) => {
       onError(err, response)

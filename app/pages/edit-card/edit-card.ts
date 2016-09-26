@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ViewController } from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DB} from '../../providers/db';
 
@@ -11,7 +11,7 @@ export class EditCardPage {
   editCardForm: FormGroup;
   card: any;
 
-  constructor(form: FormBuilder, private navCtrl: NavController, private navParams: NavParams, private db: DB) {
+  constructor(form: FormBuilder, private viewCtrl: ViewController, private navCtrl: NavController, private navParams: NavParams, private db: DB) {
     this.card = navParams.get("card")
     console.log(this.card)
 
@@ -32,5 +32,6 @@ export class EditCardPage {
     )
     //console.log(obj)
     this.db.update("card", obj)
+    this.viewCtrl.dismiss()
   }
 }
