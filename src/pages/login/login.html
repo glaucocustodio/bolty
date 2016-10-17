@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar>
+    <button menuToggle ion-button icon-only>
+      <ion-icon name='menu'></ion-icon>
+    </button>
+    <ion-title>
+      Login
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
+    <ion-list>
+
+      <ion-item>
+        <ion-label floating>Username</ion-label>
+        <ion-input type="text" formControlName="username"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Password</ion-label>
+        <ion-input type="password" formControlName="password"></ion-input>
+      </ion-item>
+
+      <div padding="">
+        <button ion-button class="button-block">Login</button>
+      </div>
+
+    </ion-list>
+  </form>
+
+  <div padding="">
+    <button ion-button (click)="openPage(signupPage)" clear>Create an account</button>
+  </div>
+</ion-content>
