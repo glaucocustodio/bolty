@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import { Events } from 'ionic-angular';
 
-// import * as pouchdb from 'PouchDB'
-//import PouchDB from 'pouchdb';
+//import * as pouchdb from 'PouchDB'
+import PouchDB from 'pouchdb';
 //import PouchDB from 'pouchdb-browser';
 // import * as PouchDB from 'pouchdb'
 // import PouchDB from 'pouchdb-browser';
@@ -14,8 +14,9 @@ export class DB {
   private remoteCon: any
 
   constructor(public events: Events) {
-console.log(PouchDB)
-    let PouchDB = require('pouchdb');
+    // console.log(PouchDB)
+    // let PouchDB = require('pouchdb');
+    PouchDB.plugin(require('pouchdb-authentication'));
     const remoteDbHost = "http://198.199.78.214:5984/bolty"
     const remoteDB = new PouchDB(remoteDbHost)
     const local = new PouchDB('bolty_db_local');

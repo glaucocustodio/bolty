@@ -13,7 +13,6 @@ import { SetPage } from '../pages/set/set';
 
 
 @Component({
-  //template: `<ion-nav [root]="rootPage"></ion-nav>`
   templateUrl: 'app.html',
 })
 export class MyApp {
