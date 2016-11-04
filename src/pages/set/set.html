@@ -19,16 +19,19 @@
     <ion-item *ngFor="let set of sets">
       {{set.name}}
 
-      <button item-right (click)="enter(set)" clear small>
+      <button ion-button item-right (click)="enter(set)" clear small>
         <ion-icon name="create"></ion-icon>
+        &nbsp;
         <div>Edit</div>
       </button>
-      <button item-right (click)="memorize(set)" clear small>
+      <button ion-button item-right (click)="memorize(set)" clear small>
         <ion-icon name="book"></ion-icon>
+        &nbsp;
         <div>Memorize</div>
       </button>
-      <button item-right (click)="reset(set)" clear small>
+      <button ion-button item-right (click)="reset(set)" clear small>
         <ion-icon name="refresh"></ion-icon>
+        &nbsp;
         <div>Reset</div>
       </button>
     </ion-item>

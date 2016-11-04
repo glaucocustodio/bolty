@@ -20,7 +20,8 @@ export class DB {
     PouchDB.plugin(require('pouchdb-authentication'));
     PouchDB.plugin(require('pouchdb-find'));
     //PouchDB.plugin(require('pouchdb-authentication'));
-    const remoteDbHost = "http://198.199.78.214:5984/bolty"
+    //http://198.199.78.214
+    const remoteDbHost = "http://127.0.0.1:5984/bolty"
     const remoteDB = new PouchDB(remoteDbHost)
     const local = new PouchDB('bolty_db_local');
 
