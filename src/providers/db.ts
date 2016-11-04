@@ -32,6 +32,13 @@ export class DB {
 
     this.remoteCon = remoteDB
     this.con = local
+
+    this.remoteCon.info().then(function (info) {
+      //console.log(info);
+    })
+    this.con.info().then(function (info) {
+      //console.log(info);
+    })
     // this.remoteCon = {}
     // this.con = {}
   }

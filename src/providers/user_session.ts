@@ -1,13 +1,15 @@
 import {Injectable} from '@angular/core';
+import {Storage} from '@ionic/storage';
 
 @Injectable()
 export class UserSession {
   current = {}
 
-  constructor() {
+  constructor(public storage: Storage) {
   }
 
   set(value) {
+    this.storage.set('hasUserLogged', true);
     this.current = value
   }
   get() {

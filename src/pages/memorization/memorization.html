@@ -17,11 +17,11 @@
     </ion-card-content>
 
     <ion-card-content text-center [hidden]="showResults">
-      <button (click)="notMemorized(card)" clear small danger>
+      <button ion-button (click)="notMemorized(card)" clear small danger>
         <ion-icon name="close"></ion-icon>
         <!-- <div>No</div> -->
       </button>
-      <button (click)="memorized(card)" clear small>
+      <button ion-button (click)="memorized(card)" clear small>
         <ion-icon name="checkmark"></ion-icon>
       </button>
     </ion-card-content>
