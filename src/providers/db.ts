@@ -21,14 +21,11 @@ export class DB {
     PouchDB.plugin(require('pouchdb-find'));
     //PouchDB.plugin(require('pouchdb-authentication'));
     //http://198.199.78.214
-    const remoteDbHost = "http://127.0.0.1:5984/bolty"
+    //const remoteDbHost = "http://127.0.0.1:5984/bolty"
+    const remoteDbHost = "http://198.199.78.214:5984/bolty"
     const remoteDB = new PouchDB(remoteDbHost)
     const local = new PouchDB('bolty_db_local');
-
-    // remoteDB.sync(local, {live: true, retry: true}).on("change", (c) => {
-    //   console.log("mudou: " + c)
-    // })
-    // //local.sync(db, {live: true, retry: true})//.on('error', console.log.bind(console));
+    // local.sync(remoteDB, {live: true, retry: true})//.on('error', console.log.bind(console));
 
     this.remoteCon = remoteDB
     this.con = local
@@ -38,6 +35,10 @@ export class DB {
     })
     this.con.info().then(function (info) {
       //console.log(info);
+    })
+
+    this.con.sync(this.remoteCon, {live: true, retry: true}).on("change", (c) => {
+      console.log("mudou: " + c)
     })
     // this.remoteCon = {}
     // this.con = {}
@@ -49,7 +50,7 @@ export class DB {
 
     this.remoteCon.login(userData['username'], userData['password']).then((response) => {
       this.remoteCon.getUser(userData['username']).then((response) => {
-        this.events.publish('user:login');
+        this.events.publish('user:login', response);
         onSuccess(response)
       })
 
@@ -59,10 +60,8 @@ export class DB {
   }
 
   logoutUser() {
-    this.remoteCon.logout().then((response) => {
-      this.events.publish('user:logout');
-    })
-
+    this.events.publish('user:logout');
+    this.remoteCon.logout().then((response) => {})
   }
 
   signupUser(userData, onError, onSuccess) {

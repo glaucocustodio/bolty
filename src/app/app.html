@@ -1,30 +1,3 @@
-<ion-menu id="loggedInMenu" [content]="content">
-  <ion-header>
-    <ion-toolbar primary>
-      <ion-title>Menu</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <ion-content>
-    <ion-list>
-      <ion-list-header>
-        <ion-icon name="contact"></ion-icon>
-        user name
-      </ion-list-header>
-      <button ion-item *ngFor="let p of protectedPages" (click)="openPage(p)">
-        {{p.title}}
-      </button>
-      <button ion-item (click)="logout()">
-        Logout
-      </button>
-
-      <button ion-item menuClose detail-none>
-        Close menu
-      </button>
-    </ion-list>
-  </ion-content>
-</ion-menu>
-
 <ion-menu id="loggedOutMenu" [content]="content">
   <ion-header>
     <ion-toolbar primary>
@@ -36,6 +9,33 @@
     <ion-list>
       <button ion-item *ngFor="let p of pages" (click)="openPage(p)">
         {{p.title}}
+      </button>
+
+      <button ion-item menuClose detail-none>
+        Close menu
+      </button>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-menu id="loggedInMenu" [content]="content">
+  <ion-header>
+    <ion-toolbar primary>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list>
+      <ion-list-header>
+        <ion-icon name="contact"></ion-icon>
+        {{loggedUser}}
+      </ion-list-header>
+      <button ion-item *ngFor="let p of protectedPages" (click)="openPage(p)">
+        {{p.title}}
+      </button>
+      <button ion-item (click)="logout()">
+        Logout
       </button>
 
       <button ion-item menuClose detail-none>

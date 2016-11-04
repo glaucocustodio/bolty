@@ -12,6 +12,8 @@ import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { SetPage } from '../pages/set/set';
 
+import {enableProdMode} from '@angular/core';
+enableProdMode();
 
 @Component({
   templateUrl: 'app.html',
@@ -22,6 +24,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
   public pages: any[];
   public protectedPages: any[];
+  public loggedUser: string;
 
 //, public db: DB
   constructor(platform: Platform, public menu: MenuController, public userSession: UserSession, public events: Events, public db: DB, public storage: Storage) {
@@ -39,14 +42,27 @@ export class MyApp {
       { title: 'Sets', component: SetPage },
     ];
 
-    this.enableMenu(true);
+    events.subscribe('user:login', (userData) => {
+      this.loggedUser = userData[0]["name"]
+      this.enableRestrictMenu(true)
+    });
+
+    events.subscribe('user:logout', (_data) => {
+      this.menu.close()
+      this.enableRestrictMenu(false)
+
+      // rewrite the stack history
+      this.nav.setPages([
+        { page: LoginPage }
+      ]);
+    });
+
   }
 
   logout() {
-    console.log("logout user")
-    this.storage.remove('hasUserLogged')
-    this.db.logoutUser()
-    this.openPage({component: LoginPage})
+    this.storage.remove('hasUserLogged').then((response) => {
+      this.db.logoutUser()
+    })
   }
 
   openPage(page) {
@@ -56,7 +72,7 @@ export class MyApp {
     this.nav.push(page.component);
   }
 
-  enableMenu(loggedIn) {
+  enableRestrictMenu(loggedIn) {
     this.menu.enable(loggedIn, 'loggedInMenu');
     this.menu.enable(!loggedIn, 'loggedOutMenu');
   }

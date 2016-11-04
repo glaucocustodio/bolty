@@ -9,7 +9,7 @@ export class UserSession {
   }
 
   set(value) {
-    this.storage.set('hasUserLogged', true);
+    this.storage.set('hasUserLogged', value["name"]);
     this.current = value
   }
   get() {
