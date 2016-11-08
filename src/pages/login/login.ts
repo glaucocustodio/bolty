@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NavController, AlertController} from 'ionic-angular';
-import {Storage} from '@ionic/storage';
 import {DB} from '../../providers/db';
 import {UserSession} from '../../providers/user_session';
 import {SignupPage} from '../signup/signup';
@@ -14,12 +13,10 @@ export class LoginPage {
   public signupPage: any;
   loginForm: FormGroup;
 
-  constructor(public nav: NavController, form: FormBuilder, public alertCtrl: AlertController, public userSession: UserSession, public db: DB, public storage: Storage) {
+  constructor(public nav: NavController, form: FormBuilder, public alertCtrl: AlertController, public userSession: UserSession, public db: DB) {
      this.signupPage = SignupPage
 
-      this.storage.get('hasUserLogged').then((response) => {
-        console.log("hasUserLogged?")
-        console.log(response)
+      this.userSession.get().then((response) => {
         if(response) {
           this.nav.push(SetPage);
         }
@@ -44,8 +41,12 @@ export class LoginPage {
       });
       alert.present();
     }, (response) => {
-      this.userSession.set(response)
+      //this.nav.setRoot(SetPage)
       this.nav.push(SetPage);
+      // rewrite the stack history
+      // this.nav.setPages([
+      //   { page: SetPage }
+      // ]);
     })
   }
 

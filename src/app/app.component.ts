@@ -26,8 +26,7 @@ export class MyApp {
   public protectedPages: any[];
   public loggedUser: string;
 
-//, public db: DB
-  constructor(platform: Platform, public menu: MenuController, public userSession: UserSession, public events: Events, public db: DB, public storage: Storage) {
+  constructor(platform: Platform, public menu: MenuController, public userSession: UserSession, public events: Events, public db: DB) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -60,9 +59,8 @@ export class MyApp {
   }
 
   logout() {
-    this.storage.remove('hasUserLogged').then((response) => {
-      this.db.logoutUser()
-    })
+    this.userSession.remove()
+    this.db.logoutUser()
   }
 
   openPage(page) {

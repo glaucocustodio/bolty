@@ -1,28 +1,21 @@
 import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage';
+import {Events} from 'ionic-angular';
 
 @Injectable()
 export class UserSession {
-  current = {}
-
-  constructor(public storage: Storage) {
+  storageKey = "loggedUser"
+  constructor(public storage: Storage, public events: Events) {
   }
 
   set(value) {
-    this.storage.set('hasUserLogged', value["name"]);
-    this.current = value
+    this.storage.set(this.storageKey, value);
+    this.events.publish('user:login', value);
   }
   get() {
-    return this.current
+    return this.storage.get(this.storageKey)
   }
-  // setVal(key, value) {
-  //   console.log('setVal called')
-  //   this.shareable[key] = value
-  // }
-
-  // getVal(key) {
-  //   console.log('getVal called')
-  //   console.log(this.shareable)
-  //   return this.shareable[key]
-  // }
+  remove() {
+    this.storage.remove(this.storageKey)
+  }
 }

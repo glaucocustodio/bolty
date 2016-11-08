@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
-import { Events } from 'ionic-angular';
+import {Events} from 'ionic-angular';
+import {UserSession} from './user_session';
 
 //import * as pouchdb from 'PouchDB'
 //import PouchDB from 'pouchdb';
@@ -13,44 +14,36 @@ export class DB {
   private con: any
   private remoteCon: any
 
-  constructor(public events: Events) {
-    // console.log(PouchDB)
-    // let PouchDB = require('pouchdb');
+  constructor(public events: Events, public userSession: UserSession) {
     let PouchDB = require('pouchdb');
     PouchDB.plugin(require('pouchdb-authentication'));
     PouchDB.plugin(require('pouchdb-find'));
-    //PouchDB.plugin(require('pouchdb-authentication'));
     //http://198.199.78.214
-    //const remoteDbHost = "http://127.0.0.1:5984/bolty"
-    const remoteDbHost = "http://198.199.78.214:5984/bolty"
-    const remoteDB = new PouchDB(remoteDbHost)
+    //const remoteDbBase = "http://198.199.78.214:5984"
+    const remoteDbBase = "http://127.0.0.1:5984"
+    const remoteDbHost = `${remoteDbBase}/bolty`
+    const remoteDB = new PouchDB(remoteDbHost);
     const local = new PouchDB('bolty_db_local');
-    // local.sync(remoteDB, {live: true, retry: true})//.on('error', console.log.bind(console));
 
     this.remoteCon = remoteDB
     this.con = local
 
-    this.remoteCon.info().then(function (info) {
-      //console.log(info);
-    })
-    this.con.info().then(function (info) {
-      //console.log(info);
-    })
+    // workaround to create all databases automatically
+    new PouchDB(`${remoteDbBase}/_users`).info()
+    this.remoteCon.info()
+    this.con.info()
 
     this.con.sync(this.remoteCon, {live: true, retry: true}).on("change", (c) => {
       console.log("mudou: " + c)
     })
-    // this.remoteCon = {}
-    // this.con = {}
   }
 
   loginUser(userData, onError, onSuccess) {
     console.log("logging..")
-    console.log(userData)
 
     this.remoteCon.login(userData['username'], userData['password']).then((response) => {
       this.remoteCon.getUser(userData['username']).then((response) => {
-        this.events.publish('user:login', response);
+        this.userSession.set(response)
         onSuccess(response)
       })
 

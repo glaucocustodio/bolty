@@ -11,6 +11,7 @@ import {UserSession} from '../../providers/user_session';
 })
 export class SetPage {
   sets: any;
+  userId: string;
 
   constructor(public navCtrl: NavController, public modalCtrl: ModalController, public userSession: UserSession, public db: DB) {
     this.db.onChanges((_changes) => {
@@ -21,14 +22,18 @@ export class SetPage {
   }
 
   getSets() {
-    this.db.all("set", {user_id: this.userSession.get()["_id"]}, (result) => {
-      this.sets = result
-      console.log(result)
+    this.userSession.get().then((response) => {
+      this.userId = response["_id"]
+
+      this.db.all("set", { user_id: this.userId }, (result) => {
+        this.sets = result
+      })
     })
+
   }
 
   openModal() {
-    let modal = this.modalCtrl.create(NewSetPage, {user_id: this.userSession.get()["_id"]});
+    let modal = this.modalCtrl.create(NewSetPage, { user_id: this.userId });
     modal.present();
   }
 

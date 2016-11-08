@@ -21,16 +21,15 @@ export class EditCardPage {
   }
 
   editCard(formData) {
-    //console.log(formData)
-
-    //this.db.get(formData)
-
     let obj = Object.assign(
       this.card,
       formData
     )
-    //console.log(obj)
     this.db.update("card", obj)
+    this.viewCtrl.dismiss()
+  }
+
+  cancel() {
     this.viewCtrl.dismiss()
   }
 }
