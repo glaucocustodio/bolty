@@ -34,7 +34,7 @@
     "pouchdb-find": "^0.10.3"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "0.0.43",
+    "@ionic/app-scripts": "0.0.44",
     "@types/node": "^6.0.46",
     "@types/pouchdb": "5.4.28",
     "typescript": "^2.0.6"
