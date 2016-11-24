@@ -144,6 +144,13 @@ export class DB {
     })
   }
 
+  deleteAll(type, filters = {}) {
+    this.con.all(type, filters, (docs) => {
+      console.log("deleteAll")
+      console.log(docs)
+    })
+  }
+
   onChanges(onSuccess) {
     this.con.changes({
       since: 'now',

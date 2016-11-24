@@ -25,6 +25,7 @@ export class NewSetPage {
      )
     console.log("create set")
     this.db.put("set", obj)
+    this.cancel()
   }
 
   cancel() {

@@ -28,7 +28,7 @@ export class NewCardPage {
       }
     )
     this.db.put("card", obj)
-    this.viewCtrl.dismiss()
+    this.cancel()
   }
 
   cancel() {

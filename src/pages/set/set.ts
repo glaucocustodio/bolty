@@ -37,6 +37,10 @@ export class SetPage {
     modal.present();
   }
 
+  delete(set) {
+
+  }
+
   enter(set) {
     this.navCtrl.push(CardPage, { set: set });
   }
