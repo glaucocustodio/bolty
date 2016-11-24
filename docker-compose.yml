@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+  app:
+    image: mkaag/ionic
+    # command: "cordova build --release android"
+    environment:
+      CORDOVA_VERSION: 6.4.0
+      IONIC_VERSION: 2.0.0-rc.3
+    volumes:
+      - .:/glauco
