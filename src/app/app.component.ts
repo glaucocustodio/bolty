@@ -37,9 +37,7 @@ export class MyApp {
     this.pages = [
       { title: 'Signup', component: SignupPage },
     ]
-    this.protectedPages = [
-      { title: 'Sets', component: SetPage },
-    ];
+    this.protectedPages = [];
 
     events.subscribe('user:login', (userData) => {
       this.loggedUser = userData["name"]

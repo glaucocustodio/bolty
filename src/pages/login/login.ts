@@ -43,11 +43,11 @@ export class LoginPage {
       alert.present();
     }, (response) => {
       //this.nav.setRoot(SetPage)
-      this.nav.push(SetPage);
+      //this.nav.push(SetPage);
       // rewrite the stack history
-      // this.nav.setPages([
-      //   { page: SetPage }
-      // ]);
+      this.nav.setPages([
+        { page: SetPage }
+      ]);
     })
   }
 
