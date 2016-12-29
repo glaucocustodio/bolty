@@ -19,7 +19,7 @@ export class LoginPage {
       this.userSession.get().then((response) => {
         if(response) {
           this.events.publish('user:login', response);
-          this.nav.push(SetPage);
+          this.goToNextPage()
         }
       })
 
@@ -42,13 +42,16 @@ export class LoginPage {
       });
       alert.present();
     }, (response) => {
-      //this.nav.setRoot(SetPage)
-      //this.nav.push(SetPage);
-      // rewrite the stack history
-      this.nav.setPages([
-        { page: SetPage }
-      ]);
+      this.goToNextPage()
     })
+  }
+
+  goToNextPage(){
+    // this.nav.push(SetPage);
+    // rewrite the stack history
+    this.nav.setPages([
+      { page: SetPage }
+    ]);
   }
 
   openPage(page) {
