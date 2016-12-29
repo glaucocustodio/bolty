@@ -41,7 +41,9 @@ export class SignupPage {
     }, (response) => {
       this.db.loginUser(formData, (err, response) => {}, (response) => {
         this.userSession.set(response).then(() => {
-          this.nav.push(SetPage);
+          this.nav.setPages([
+            { page: SetPage }
+          ]);
         })
       })
     })
