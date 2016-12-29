@@ -18,20 +18,29 @@ export class DB {
     let PouchDB = require('pouchdb');
     PouchDB.plugin(require('pouchdb-authentication'));
     PouchDB.plugin(require('pouchdb-find'));
+
+    // The remote databases must be created manually!
+    // After creating the dbs, access Fauxon and go to: Permissions -> Members -> Add Role and type "admin"
+    // only members with role "admin" will be able to change the db through Fauxton
     //http://198.199.78.214
     const remoteDbBase = "http://198.199.78.214:5984"
     //const remoteDbBase = "http://127.0.0.1:5984"
     const remoteDbHost = `${remoteDbBase}/bolty`
-    const remoteDB = new PouchDB(remoteDbHost);
+
+    let options = {
+      skipSetup: true,
+    }
+
+    const remoteDB = new PouchDB(remoteDbHost, options);
     const local = new PouchDB('bolty_db_local');
 
     this.remoteCon = remoteDB
     this.con = local
 
     // workaround to create all databases automatically
-    new PouchDB(`${remoteDbBase}/_users`).info()
-    this.remoteCon.info()
-    this.con.info()
+    // new PouchDB(`${remoteDbBase}/_users`).info()
+    // this.remoteCon.info()
+    // this.con.info()
 
     this.con.sync(this.remoteCon, {live: true, retry: true}).on("change", (c) => {
       console.log("mudou: " + c)
