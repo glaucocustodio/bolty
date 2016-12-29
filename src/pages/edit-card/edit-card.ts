@@ -29,7 +29,8 @@ export class EditCardPage {
     this.viewCtrl.dismiss()
   }
 
-  cancel() {
+  cancel(event) {
+    event.preventDefault()
     this.viewCtrl.dismiss()
   }
 }

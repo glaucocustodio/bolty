@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController } from 'ionic-angular';
+import { NavController, ModalController, AlertController } from 'ionic-angular';
 import {NewSetPage} from '../new-set/new-set';
 import {CardPage} from '../card/card';
 import {MemorizationPage} from '../memorization/memorization';
@@ -13,7 +13,7 @@ export class SetPage {
   sets: any;
   userId: string;
 
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public userSession: UserSession, public db: DB) {
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public userSession: UserSession, public db: DB, public alertCtrl: AlertController) {
     this.db.onChanges((_changes) => {
       this.getSets()
     })
@@ -38,7 +38,23 @@ export class SetPage {
   }
 
   delete(set) {
-
+    let confirm = this.alertCtrl.create({
+      title: 'Are you sure?',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Yes, I am sure',
+          handler: () => {
+            this.db.delete(set._id)
+          }
+        }
+      ]
+    })
+    confirm.present()
   }
 
   enter(set) {

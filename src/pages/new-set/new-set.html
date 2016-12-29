@@ -16,12 +16,9 @@
 
       <div padding="">
         <button ion-button type="submit" class="button-block">Create</button>
+        <button ion-button (click)="cancel($event)" color="light" class="button-block">Cancel</button>
       </div>
 
     </ion-list>
   </form>
-
-  <div padding="">
-    <button ion-button (click)="cancel()" color="light" class="button-block">Cancel</button>
-  </div>
 </ion-content>

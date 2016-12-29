@@ -31,7 +31,10 @@ export class NewCardPage {
     this.cancel()
   }
 
-  cancel() {
+  cancel(event = null) {
+    if (event) {
+      event.preventDefault()
+    }
     this.viewCtrl.dismiss()
   }
 }

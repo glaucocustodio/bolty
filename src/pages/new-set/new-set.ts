@@ -28,7 +28,10 @@ export class NewSetPage {
     this.cancel()
   }
 
-  cancel() {
+  cancel(event = null) {
+    if (event) {
+      event.preventDefault()
+    }
     this.viewCtrl.dismiss()
   }
 }
