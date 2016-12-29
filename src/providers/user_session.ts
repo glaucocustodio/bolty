@@ -9,8 +9,12 @@ export class UserSession {
   }
 
   set(value) {
-    this.storage.set(this.storageKey, value);
-    this.events.publish('user:login', value);
+    return new Promise((resolve, reject) => {
+      this.storage.set(this.storageKey, value).then(()=> {
+        this.events.publish('user:login', value);
+        resolve()
+      });
+    });
   }
   get() {
     return this.storage.get(this.storageKey)

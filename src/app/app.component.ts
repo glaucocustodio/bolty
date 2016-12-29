@@ -42,7 +42,7 @@ export class MyApp {
     ];
 
     events.subscribe('user:login', (userData) => {
-      this.loggedUser = userData[0]["name"]
+      this.loggedUser = userData["name"]
       this.enableRestrictMenu(true)
     });
 

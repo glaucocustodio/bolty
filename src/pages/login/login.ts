@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {NavController, AlertController} from 'ionic-angular';
+import {NavController, AlertController, Events} from 'ionic-angular';
 import {DB} from '../../providers/db';
 import {UserSession} from '../../providers/user_session';
 import {SignupPage} from '../signup/signup';
@@ -13,11 +13,12 @@ export class LoginPage {
   public signupPage: any;
   loginForm: FormGroup;
 
-  constructor(public nav: NavController, form: FormBuilder, public alertCtrl: AlertController, public userSession: UserSession, public db: DB) {
+  constructor(public nav: NavController, form: FormBuilder, public alertCtrl: AlertController, public userSession: UserSession, public db: DB, public events: Events) {
      this.signupPage = SignupPage
 
       this.userSession.get().then((response) => {
         if(response) {
+          this.events.publish('user:login', response);
           this.nav.push(SetPage);
         }
       })

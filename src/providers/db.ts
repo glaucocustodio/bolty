@@ -19,8 +19,8 @@ export class DB {
     PouchDB.plugin(require('pouchdb-authentication'));
     PouchDB.plugin(require('pouchdb-find'));
     //http://198.199.78.214
-    //const remoteDbBase = "http://198.199.78.214:5984"
-    const remoteDbBase = "http://127.0.0.1:5984"
+    const remoteDbBase = "http://198.199.78.214:5984"
+    //const remoteDbBase = "http://127.0.0.1:5984"
     const remoteDbHost = `${remoteDbBase}/bolty`
     const remoteDB = new PouchDB(remoteDbHost);
     const local = new PouchDB('bolty_db_local');
@@ -40,11 +40,13 @@ export class DB {
 
   loginUser(userData, onError, onSuccess) {
     console.log("logging..")
+    console.log(userData)
 
     this.remoteCon.login(userData['username'], userData['password']).then((response) => {
       this.remoteCon.getUser(userData['username']).then((response) => {
-        this.userSession.set(response)
-        onSuccess(response)
+        this.userSession.set(response).then(() => {
+          onSuccess(response)
+        })
       })
 
     }).catch((err, response) => {

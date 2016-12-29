@@ -22,6 +22,7 @@ export class SignupPage {
     let message: string
 
     this.db.signupUser(formData, (err, response) => {
+      console.log(err)
 
       if (err.name === 'conflict') {
         message = 'This username already exists'
@@ -39,8 +40,9 @@ export class SignupPage {
 
     }, (response) => {
       this.db.loginUser(formData, (err, response) => {}, (response) => {
-        this.userSession.set(response)
-        this.nav.push(SetPage);
+        this.userSession.set(response).then(() => {
+          this.nav.push(SetPage);
+        })
       })
     })
   }
