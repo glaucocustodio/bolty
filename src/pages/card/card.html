@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Cards of "{{set.name}}"</ion-title>
+    <ion-title>Cards of "{{set.name}}" ({{cardsCount}} items)</ion-title>
 
     <ion-buttons end>
       <button ion-button (click)="openModal()">
@@ -14,7 +14,7 @@
 
 
 <ion-content padding>
-  <ion-searchbar (ionInput)="searchItems($event)"></ion-searchbar>
+  <ion-searchbar (ionInput)="searchItems($event)" [debounce]="500"></ion-searchbar>
 
   <ion-card *ngFor="let card of cards">
     <ion-card-header>

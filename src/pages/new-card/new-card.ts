@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DB} from '../../providers/db';
+import {CardBuilder} from '../../helpers/card_builder';
 
 @Component({
   templateUrl: 'new-card.html'
@@ -20,15 +21,8 @@ export class NewCardPage {
   }
 
   createCard(formData) {
-    let obj = Object.assign(
-      formData,
-      {
-        set_id: this.set._id,
-        user_id: this.set.user_id,
-        memorized: false
-      }
-    )
-    this.db.put("card", obj)
+    let card = CardBuilder.call(formData, this.set)
+    this.db.put("card", card)
     this.cancel()
   }
 

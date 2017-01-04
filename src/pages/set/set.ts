@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, ModalController, AlertController } from 'ionic-angular';
 import {NewSetPage} from '../new-set/new-set';
 import {CardPage} from '../card/card';
+import { ImportCardPage } from '../import-card/import-card';
 import {MemorizationPage} from '../memorization/memorization';
 import {DB} from '../../providers/db';
 import {UserSession} from '../../providers/user_session';
@@ -50,11 +51,16 @@ export class SetPage {
           text: 'Yes, I am sure',
           handler: () => {
             this.db.delete(set._id)
+            this.db.deleteAll("card", { set_id: set._id })
           }
         }
       ]
     })
     confirm.present()
+  }
+
+  import(set) {
+    this.navCtrl.push(ImportCardPage, { set: set });
   }
 
   enter(set) {

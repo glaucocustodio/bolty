@@ -34,9 +34,11 @@
     "pouchdb-find": "^0.10.3"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "0.0.47",
-    "typescript": "2.0.9",
+    "@ionic/app-scripts": "0.0.48",
     "@types/node": "^6.0.46",
-    "@types/pouchdb": "5.4.28"
+    "@types/papaparse": "^4.1.28",
+    "@types/pouchdb": "5.4.28",
+    "papaparse": "^4.1.2",
+    "typescript": "2.0.9"
   }
 }

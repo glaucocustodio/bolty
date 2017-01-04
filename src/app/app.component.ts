@@ -1,9 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Platform, Events, MenuController, Nav } from 'ionic-angular';
 import { StatusBar } from 'ionic-native';
-import {Storage} from '@ionic/storage';
-
-import { TabsPage } from '../pages/tabs/tabs';
 
 import { DB } from '../providers/db';
 import { UserSession } from '../providers/user_session';

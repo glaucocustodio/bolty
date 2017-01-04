@@ -3,14 +3,12 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import { MyApp } from './app.component';
-import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
-import { TabsPage } from '../pages/tabs/tabs';
 
 import { DB } from '../providers/db';
 import { UserSession } from '../providers/user_session';
 
+import { ImportCardPage } from '../pages/import-card/import-card';
 import { CardPage } from '../pages/card/card';
 import { NewCardPage } from '../pages/new-card/new-card';
 import { EditCardPage } from '../pages/edit-card/edit-card';
@@ -25,11 +23,9 @@ import { MemorizationPage } from '../pages/memorization/memorization';
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
-    ContactPage,
     HomePage,
-    TabsPage,
 
+    ImportCardPage,
     CardPage,
     NewCardPage,
     EditCardPage,
@@ -45,11 +41,9 @@ import { MemorizationPage } from '../pages/memorization/memorization';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
-    ContactPage,
     HomePage,
-    TabsPage,
 
+    ImportCardPage,
     CardPage,
     NewCardPage,
     EditCardPage,

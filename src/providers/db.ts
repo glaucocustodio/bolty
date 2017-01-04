@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Events} from 'ionic-angular';
 import {UserSession} from './user_session';
+import {GUID} from '../helpers/guid';
+
 
 //import * as pouchdb from 'PouchDB'
 //import PouchDB from 'pouchdb';
@@ -42,9 +44,21 @@ export class DB {
     // this.remoteCon.info()
     // this.con.info()
 
-    this.con.sync(this.remoteCon, {live: true, retry: true}).on("change", (c) => {
-      console.log("mudou: " + c)
-    })
+    this.con.sync(this.remoteCon, {
+      live: true,
+      retry: true
+    }).on("change", (c) => {
+      console.log("changed: ")
+      // console.log(c)
+    }).on('paused', function (info) {
+      console.log("paused: " + info)
+    }).on('active', function (info) {
+      console.log("on active: ")
+      // console.log(info)
+    }).on('error', function (err) {
+      console.log("error: " + err)
+      // totally unhandled error (shouldn't happen)
+    });
   }
 
   loginUser(userData, onError, onSuccess) {
@@ -91,7 +105,7 @@ export class DB {
     obj = Object.assign(
       obj,
       {
-        _id: `${type}-${new Date().toISOString()}`,
+        _id: `${type}-${new Date().toISOString()}-${GUID.generate()}`,
         type: type
       }
     )
@@ -104,6 +118,21 @@ export class DB {
       console.log(err)
       console.log(`Failed to put ${type} ` + err)
     });
+  }
+
+  putAll(type, documents) {
+    console.log("putting all " + type)
+
+    let documentsReady = documents.map((c) => {
+      return Object.assign(
+        c,
+        {
+          _id: `${type}-${new Date().toISOString()}-${GUID.generate()}`,
+          type: type
+        }
+      )
+    })
+    return this.con.bulkDocs(documentsReady)
   }
 
   update(type, obj) {
@@ -127,13 +156,11 @@ export class DB {
     //console.log(filters)
     this.all(type, filters, (result) => {
       let changed = result.map((c) => {
-        //console.log(c)
         return Object.assign(
           c,
           toChange
         )
       })
-      console.log(changed)
       this.con.bulkDocs(changed)
       // .then(() => {
       //   console.log("sucesso")

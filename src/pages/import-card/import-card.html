@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar>
+    <button menuToggle ion-button icon-only>
+      <ion-icon name='menu'></ion-icon>
+    </button>
+    <ion-title>
+      Import cards
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <form [formGroup]="importCardForm" (ngSubmit)="importCards($event)">
+    <ion-list>
+
+      <ion-item>
+        <ion-label floating>Separator</ion-label>
+        <ion-input type="text" formControlName="separator" autofocus></ion-input>
+      </ion-item>
+
+       <ion-item>
+         <ion-label stacked>Cards to import</ion-label>
+         <ion-textarea formControlName="cards" autofocus></ion-textarea>
+       </ion-item>
+
+      <div padding="">
+        <button ion-button class="button-block">Import</button>
+        <button ion-button (click)="cancel($event)" color="light" class="button-block">Cancel</button>
+      </div>
+
+    </ion-list>
+  </form>
+</ion-content>
