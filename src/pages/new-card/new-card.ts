@@ -24,6 +24,7 @@ export class NewCardPage {
       formData,
       {
         set_id: this.set._id,
+        user_id: this.set.user_id,
         memorized: false
       }
     )
