@@ -50,8 +50,9 @@ export class SetPage {
         {
           text: 'Yes, I am sure',
           handler: () => {
-            this.db.delete(set._id)
-            this.db.deleteAll("card", { set_id: set._id })
+            this.db.deleteAll("card", { set_id: set._id }, () => {
+              this.db.delete(set._id)
+            })
           }
         }
       ]

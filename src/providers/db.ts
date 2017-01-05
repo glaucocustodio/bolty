@@ -123,8 +123,8 @@ export class DB {
   putAll(type, documents) {
     console.log("putting all " + type)
 
-    let documentsReady = documents.map((c) => {
-      return this.prepareForSave(type, c)
+    let documentsReady = documents.map((current) => {
+      return this.prepareForSave(type, current)
     })
     return this.con.bulkDocs(documentsReady)
   }
@@ -136,7 +136,6 @@ export class DB {
         type: type
       }
     )
-    console.log(obj)
     this.con.put(obj).then((resp) => {
       console.log("Success to update " + resp)
     }).catch((err) => {
@@ -147,13 +146,10 @@ export class DB {
 
   updateAll(type, filters = {}, toChange) {
     console.log("updateAll " + type)
-    //console.log(filters)
+
     this.all(type, filters, (result) => {
-      let changed = result.map((c) => {
-        return Object.assign(
-          c,
-          toChange
-        )
+      let changed = result.map((current) => {
+        return Object.assign(current, toChange)
       })
       this.con.bulkDocs(changed)
       // .then(() => {
@@ -164,7 +160,7 @@ export class DB {
 
   all(type, filters = {}, onSuccess) {
     this.con.find({
-      selector: Object.assign({type: type}, filters)
+      selector: Object.assign({ type: type }, filters)
     }).then((result) => {
       onSuccess(result.docs)
     })
@@ -176,10 +172,14 @@ export class DB {
     })
   }
 
-  deleteAll(type, filters = {}) {
-    this.con.all(type, filters, (docs) => {
-      console.log("deleteAll")
-      console.log(docs)
+  deleteAll(type, filters = {}, onSuccess) {
+    this.all(type, filters, (docs) => {
+      console.log(`deleteAll ${type}`)
+      let documentsReady = docs.map((current) => {
+        return Object.assign(current, { _deleted: true })
+      })
+
+      this.con.bulkDocs(documentsReady, {}, onSuccess)
     })
   }
 
@@ -191,6 +191,4 @@ export class DB {
       onSuccess(changes)
     })
   }
-
-
 }
