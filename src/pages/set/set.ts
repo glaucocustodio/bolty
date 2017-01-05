@@ -15,9 +15,10 @@ export class SetPage {
   userId: string;
 
   constructor(public navCtrl: NavController, public modalCtrl: ModalController, public userSession: UserSession, public db: DB, public alertCtrl: AlertController, public events: Events) {
+  }
 
-    console.log("constructor")
-    events.subscribe('sets:changed', (userData) => {
+  ngOnInit() {
+    this.events.subscribe('sets:changed', (userData) => {
       this.getSets()
     });
   }

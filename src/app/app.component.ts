@@ -7,7 +7,6 @@ import { UserSession } from '../providers/user_session';
 
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
-import { SetPage } from '../pages/set/set';
 
 import {enableProdMode} from '@angular/core';
 enableProdMode();

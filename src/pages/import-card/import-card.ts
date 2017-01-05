@@ -18,9 +18,12 @@ export class ImportCardPage {
   importCardForm: FormGroup;
   set: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, form: FormBuilder, public toastCtrl: ToastController, public db: DB) {
-    this.set = navParams.get("set")
-    this.importCardForm = form.group({
+  constructor(public navCtrl: NavController, public navParams: NavParams, public form: FormBuilder, public toastCtrl: ToastController, public db: DB) {
+  }
+
+  ngOnInit(){
+    this.set = this.navParams.get("set")
+    this.importCardForm = this.form.group({
       separator: ["----", Validators.required],
       cards: ["", Validators.required],
     })

@@ -13,24 +13,25 @@ export class LoginPage {
   public signupPage: any;
   loginForm: FormGroup;
 
-  constructor(public nav: NavController, form: FormBuilder, public alertCtrl: AlertController, public userSession: UserSession, public db: DB, public events: Events) {
-     this.signupPage = SignupPage
+  constructor(public nav: NavController, public form: FormBuilder, public alertCtrl: AlertController, public userSession: UserSession, public db: DB, public events: Events) {
+  }
 
-      this.userSession.get().then((response) => {
-        if(response) {
-          this.events.publish('user:login', response);
-          this.goToNextPage()
-        }
-      })
+  ngOnInit(){
+    this.signupPage = SignupPage
 
-      // name should match [ngFormModel] in your html
-      // Setting fields as required
-     this.loginForm = form.group({
-       // 'username': '',
-       // 'password': ''
-       username: ["", Validators.required],
-       password: ["", Validators.required]
-     })
+    this.userSession.get().then((response) => {
+      if(response) {
+        this.events.publish('user:login', response);
+        this.goToNextPage()
+      }
+    })
+
+    // name should match [ngFormModel] in your html
+    // Setting fields as required
+   this.loginForm = this.form.group({
+     username: ["", Validators.required],
+     password: ["", Validators.required]
+   })
   }
 
   login(formData){

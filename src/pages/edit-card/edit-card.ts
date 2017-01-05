@@ -10,11 +10,13 @@ export class EditCardPage {
   editCardForm: FormGroup;
   card: any;
 
-  constructor(form: FormBuilder, public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public db: DB, public events: Events) {
-    this.card = navParams.get("card")
-    console.log(this.card)
+  constructor(public form: FormBuilder, public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public db: DB, public events: Events) {
+  }
 
-    this.editCardForm = form.group({
+  ngOnInit(){
+    this.card = this.navParams.get("card")
+
+    this.editCardForm = this.form.group({
       front: [this.card.front, Validators.required],
       back: [this.card.back, Validators.required]
     })

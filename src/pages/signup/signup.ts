@@ -11,8 +11,11 @@ import {SetPage} from '../set/set';
 export class SignupPage {
   signupForm: FormGroup;
 
-  constructor(public nav: NavController, form: FormBuilder, public alertCtrl: AlertController, public userSession: UserSession, public db: DB) {
-    this.signupForm = form.group({
+  constructor(public nav: NavController, public form: FormBuilder, public alertCtrl: AlertController, public userSession: UserSession, public db: DB) {
+  }
+
+  ngOnInit(){
+    this.signupForm = this.form.group({
       username: ["", Validators.required],
       password: ["", Validators.required]
     })

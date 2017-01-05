@@ -15,12 +15,14 @@ export class MemorizationPage {
   memorizedCards = 0;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public db: DB) {
-    this.set = navParams.get("set")
+  }
 
-    this.db.all("card", {set_id: this.set._id, memorized: false}, (result) => {
+  ngOnInit(){
+    this.set = this.navParams.get("set")
+
+    this.db.all("card", { set_id: this.set._id, memorized: false }, (result) => {
       this.cards = result
       this.activeCard = this.cards[this.activeCardIndex]
-      console.log(this.activeCard)
     })
   }
 

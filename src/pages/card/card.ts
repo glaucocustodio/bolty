@@ -14,9 +14,12 @@ export class CardPage {
   cardsCount: number;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public alertCtrl: AlertController, public db: DB, public events: Events) {
-    this.set = navParams.get("set")
+  }
 
-    events.subscribe('cards:changed', (userData) => {
+  ngOnInit() {
+    this.set = this.navParams.get("set")
+
+    this.events.subscribe('cards:changed', (userData) => {
       this.init()
     });
   }

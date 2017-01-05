@@ -11,10 +11,13 @@ export class NewCardPage {
   newCardForm: FormGroup;
   set: any;
 
-  constructor(form: FormBuilder, public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public db: DB, public events: Events) {
-    this.set = navParams.get("set")
+  constructor(public form: FormBuilder, public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public db: DB, public events: Events) {
+  }
 
-    this.newCardForm = form.group({
+  ngOnInit(){
+    this.set = this.navParams.get("set")
+
+    this.newCardForm = this.form.group({
       front: ["", Validators.required],
       back: ["", Validators.required]
     })

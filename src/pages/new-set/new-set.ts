@@ -10,12 +10,15 @@ export class NewSetPage {
   newSetForm: FormGroup;
   user_id: any;
 
-  constructor(form: FormBuilder, public navParams: NavParams, public db: DB, public viewCtrl: ViewController, public events: Events) {
-    this.newSetForm = form.group({
+  constructor(public form: FormBuilder, public navParams: NavParams, public db: DB, public viewCtrl: ViewController, public events: Events) {
+  }
+
+  ngOnInit(){
+    this.newSetForm = this.form.group({
       name: [null, Validators.required]
     })
 
-    this.user_id = navParams.get("user_id")
+    this.user_id = this.navParams.get("user_id")
   }
 
   createSet(formData) {
