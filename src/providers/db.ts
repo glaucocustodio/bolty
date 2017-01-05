@@ -102,17 +102,7 @@ export class DB {
   put(type, obj) {
     console.log(`putting ${type}...`)
 
-    obj = Object.assign(
-      obj,
-      {
-        _id: `${type}-${new Date().toISOString()}-${GUID.generate()}`,
-        type: type
-      }
-    )
-
-    console.log(obj)
-
-    this.con.put(obj).then((resp) => {
+    this.con.put(this.prepareForSave(type, obj)).then((resp) => {
       console.log("Success to put " + resp)
     }).catch((err) => {
       console.log(err)
@@ -120,17 +110,21 @@ export class DB {
     });
   }
 
+  private prepareForSave(type, object) {
+    return Object.assign(
+      object,
+      {
+        _id: `${type}-${new Date().toISOString()}-${GUID.generate()}`,
+        type: type
+      }
+    )
+  }
+
   putAll(type, documents) {
     console.log("putting all " + type)
 
     let documentsReady = documents.map((c) => {
-      return Object.assign(
-        c,
-        {
-          _id: `${type}-${new Date().toISOString()}-${GUID.generate()}`,
-          type: type
-        }
-      )
+      return this.prepareForSave(type, c)
     })
     return this.con.bulkDocs(documentsReady)
   }

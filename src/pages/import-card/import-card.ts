@@ -35,11 +35,6 @@ export class ImportCardPage {
       {
         delimiter: this.importCardForm.value.separator,
         complete: (result) => {
-          // for(let current of result.data){
-          //   let card = CardBuilder.call({front: current[0], back: current[1]}, this.set)
-          //   //this.db.put("card", card)
-          // }
-
           let allCards = result.data.map((current) => {
             return CardBuilder.call({front: current[0], back: current[1]}, this.set)
           })

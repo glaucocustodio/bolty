@@ -16,7 +16,7 @@ export class CardPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public alertCtrl: AlertController, public db: DB) {
     this.set = navParams.get("set")
 
-    this.db.onChanges((_change) => {
+    this.db.onChanges((_changes) => {
       this.init()
     })
 
@@ -26,11 +26,11 @@ export class CardPage {
   init(callback = null) {
     this.db.all("card", {set_id: this.set._id}, (result) => {
       this.cards = result
-      this.cardsCount = this.cards.length
 
       if (callback != null) {
         callback(this)
       }
+      this.calcCardsCount()
     })
   }
 
@@ -64,18 +64,24 @@ export class CardPage {
     confirm.present()
   }
 
+  calcCardsCount() {
+    this.cardsCount = this.cards.length
+  }
+
   filterItems(that) {
     // if the value is an empty string don't filter the items
     if (that.searchTerm && that.searchTerm.trim() != '') {
 
       that.cards = that.cards.filter((item) => {
-        let front = item.front.toLowerCase()
-        let back = item.back.toLowerCase()
-        console.log(`front: ${front} | back: ${back}`)
-        //console.log('f index: ' + front.indexOf(that.searchTerm))
-        //console.log('b index: ' + back.indexOf(that.searchTerm))
+        if (item.front && item.back) {
+          let front = item.front.toLowerCase()
+          let back = item.back.toLowerCase()
+          //console.log(`front: ${front} | back: ${back}`)
+          //console.log('f index: ' + front.indexOf(that.searchTerm))
+          //console.log('b index: ' + back.indexOf(that.searchTerm))
 
-        return (front.indexOf(that.searchTerm) > -1) || (back.indexOf(that.searchTerm) > -1)
+          return (front.indexOf(that.searchTerm) > -1) || (back.indexOf(that.searchTerm) > -1)
+        }
       })
     }
   }
