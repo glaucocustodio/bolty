@@ -13,13 +13,9 @@ import {UserSession} from '../../providers/user_session';
 export class SetPage {
   sets: any;
   userId: string;
-  changes: any;
 
   constructor(public navCtrl: NavController, public modalCtrl: ModalController, public userSession: UserSession, public db: DB, public alertCtrl: AlertController, public events: Events) {
 
-    // this.changes = this.db.onChanges("set", (_changes) => {
-    //   this.getSets()
-    // })
     console.log("constructor")
     events.subscribe('sets:changed', (userData) => {
       this.getSets()
@@ -27,13 +23,8 @@ export class SetPage {
   }
 
   ionViewWillEnter() {
-    console.log("ionViewWillEnter")
     this.getSets()
   }
-
-  // ionViewWillLeave() {
-  //   this.changes.cancel()
-  // }
 
   getSets() {
     this.userSession.get().then((response) => {

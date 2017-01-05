@@ -14,7 +14,7 @@
 
 
 <ion-content padding>
-  <ion-searchbar (ionInput)="searchItems($event)" [debounce]="500"></ion-searchbar>
+  <ion-searchbar (ionInput)="searchItems($event)" [debounce]="300"></ion-searchbar>
 
   <ion-card *ngFor="let card of cards">
     <ion-card-header>
