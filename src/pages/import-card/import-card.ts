@@ -27,7 +27,6 @@ export class ImportCardPage {
   }
 
   importCards(event){
-    console.log("estou aqui")
     event.preventDefault()
 
     Papa.parse(
@@ -41,6 +40,7 @@ export class ImportCardPage {
 
           this.db.putAll("card", allCards).then(() => {
             this.presentToast(`${result.data.length} cards imported`)
+            this.importCardForm.reset()
           }).catch(() => {
             this.presentToast(`Failed to import ${result.data.length} cards`)
           })

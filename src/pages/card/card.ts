@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, ModalController, AlertController, Events } from 'ionic-angular';
 import {NewCardPage} from '../new-card/new-card';
 import {EditCardPage} from '../edit-card/edit-card';
 import {DB} from '../../providers/db';
@@ -12,16 +12,25 @@ export class CardPage {
   cards: any;
   searchTerm: any;
   cardsCount: number;
+  changes: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public alertCtrl: AlertController, public db: DB) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, public alertCtrl: AlertController, public db: DB, public events: Events) {
     this.set = navParams.get("set")
 
-    this.db.onChanges((_changes) => {
+    // this.changes = this.db.onChanges("card", (_changes) => {
+    //   this.init()
+    // })
+
+    events.subscribe('cards:changed', (userData) => {
       this.init()
-    })
+    });
 
     this.init()
   }
+
+  // ionViewWillLeave() {
+  //   this.changes.cancel()
+  // }
 
   init(callback = null) {
     this.db.all("card", {set_id: this.set._id}, (result) => {
@@ -56,7 +65,9 @@ export class CardPage {
         {
           text: 'Yes, I am sure',
           handler: () => {
-            this.db.delete(card._id)
+            this.db.delete(card._id, () => {
+              this.events.publish('cards:changed');
+            })
           }
         }
       ]
@@ -88,10 +99,14 @@ export class CardPage {
 
   searchItems(event) {
     // set val to the value of the searchbar
-    this.searchTerm = event.target.value.toLowerCase();
-    console.log("Buscado " + this.searchTerm)
+    if (event.target.value) {
+      this.searchTerm = event.target.value.toLowerCase();
+      console.log("Buscando " + this.searchTerm)
 
-    this.init(this.filterItems)
+      this.init(this.filterItems)
+    } else {
+      this.init()
+    }
   }
 
 }

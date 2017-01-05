@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController } from 'ionic-angular';
+import { NavController, NavParams, ViewController, Events } from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DB} from '../../providers/db';
 import {CardBuilder} from '../../helpers/card_builder';
@@ -11,7 +11,7 @@ export class NewCardPage {
   newCardForm: FormGroup;
   set: any;
 
-  constructor(form: FormBuilder, public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public db: DB) {
+  constructor(form: FormBuilder, public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public db: DB, public events: Events) {
     this.set = navParams.get("set")
 
     this.newCardForm = form.group({
@@ -23,6 +23,7 @@ export class NewCardPage {
   createCard(formData) {
     let card = CardBuilder.call(formData, this.set)
     this.db.put("card", card)
+    this.events.publish('cards:changed');
     this.cancel()
   }
 

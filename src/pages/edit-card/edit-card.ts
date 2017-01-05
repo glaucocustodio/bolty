@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController } from 'ionic-angular';
+import { NavController, NavParams, ViewController, Events } from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DB} from '../../providers/db';
 
@@ -10,7 +10,7 @@ export class EditCardPage {
   editCardForm: FormGroup;
   card: any;
 
-  constructor(form: FormBuilder, public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public db: DB) {
+  constructor(form: FormBuilder, public viewCtrl: ViewController, public navCtrl: NavController, public navParams: NavParams, public db: DB, public events: Events) {
     this.card = navParams.get("card")
     console.log(this.card)
 
@@ -26,6 +26,7 @@ export class EditCardPage {
       formData
     )
     this.db.update("card", obj)
+    this.events.publish('cards:changed');
     this.viewCtrl.dismiss()
   }
 

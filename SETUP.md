@@ -13,3 +13,8 @@
 - Run CouchDB 2 container: `docker run -p 5984:5984 klaemo/couchdb:2.0.0` on fish shell
 - `curl -X PUT http://127.0.0.1:5984/_users`
 - `curl -X PUT http://127.0.0.1:5984/bolty`
+
+# Device build
+- `ionic platform add android`
+- `cordova plugin add cordova-plugin-whitelist`
+- `ionic build android`

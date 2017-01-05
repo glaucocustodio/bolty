@@ -20,7 +20,6 @@ export class DB {
     let PouchDB = require('pouchdb');
     PouchDB.plugin(require('pouchdb-authentication'));
     PouchDB.plugin(require('pouchdb-find'));
-
     // The remote databases must be created manually!
     // After creating the dbs, access Fauxon and go to: Permissions -> Members -> Add Role and type "admin"
     // only members with role "admin" will be able to change the db through Fauxton
@@ -47,18 +46,19 @@ export class DB {
     this.con.sync(this.remoteCon, {
       live: true,
       retry: true
-    }).on("change", (c) => {
-      console.log("changed: ")
-      // console.log(c)
-    }).on('paused', function (info) {
-      console.log("paused: " + info)
-    }).on('active', function (info) {
-      console.log("on active: ")
-      // console.log(info)
-    }).on('error', function (err) {
-      console.log("error: " + err)
-      // totally unhandled error (shouldn't happen)
-    });
+    })
+    // .on("change", (c) => {
+    //   console.log("changed: ")
+    //   // console.log(c)
+    // }).on('paused', function (info) {
+    //   console.log("paused: " + info)
+    // }).on('active', function (info) {
+    //   console.log("on active: ")
+    //   // console.log(info)
+    // }).on('error', function (err) {
+    //   console.log("error: " + err)
+    //   // totally unhandled error (shouldn't happen)
+    // });
   }
 
   loginUser(userData, onError, onSuccess) {
@@ -152,9 +152,6 @@ export class DB {
         return Object.assign(current, toChange)
       })
       this.con.bulkDocs(changed)
-      // .then(() => {
-      //   console.log("sucesso")
-      // })
     })
   }
 
@@ -166,13 +163,16 @@ export class DB {
     })
   }
 
-  delete(_id) {
+  delete(_id, onSuccess = null) {
     this.con.get(_id).then((doc) => {
-      return this.con.remove(doc)
+      this.con.put(Object.assign(doc, { _deleted: true })).then(() => {
+        console.log("deleted")
+        if (onSuccess) onSuccess()
+      })
     })
   }
 
-  deleteAll(type, filters = {}, onSuccess) {
+  deleteAll(type, filters = {}, onSuccess = () => {}) {
     this.all(type, filters, (docs) => {
       console.log(`deleteAll ${type}`)
       let documentsReady = docs.map((current) => {
@@ -183,12 +183,30 @@ export class DB {
     })
   }
 
-  onChanges(onSuccess) {
-    this.con.changes({
-      since: 'now',
-      live: true,
-    }).on('change', (changes) => {
-      onSuccess(changes)
-    })
+  onChanges(type = null, onSuccess) {
+    console.log("onChanges called")
+    let options;
+
+    if (type) {
+      options = {
+        since: 'now',
+        live: true,
+        filter: 'filter_by_type',
+        query_params: {type: type}
+      }
+    } else {
+      options = {
+        since: 'now',
+        live: true,
+      }
+    }
+
+    return this.con.changes(options).on('change', function(change) {
+      console.log("cc")
+      onSuccess()
+    }).on('error', function (err) {
+      console.log("changes error")
+      console.log(err);
+    });
   }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, AlertController } from 'ionic-angular';
+import { NavController, ModalController, AlertController, Events } from 'ionic-angular';
 import {NewSetPage} from '../new-set/new-set';
 import {CardPage} from '../card/card';
 import { ImportCardPage } from '../import-card/import-card';
@@ -13,14 +13,27 @@ import {UserSession} from '../../providers/user_session';
 export class SetPage {
   sets: any;
   userId: string;
+  changes: any;
 
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public userSession: UserSession, public db: DB, public alertCtrl: AlertController) {
-    this.db.onChanges((_changes) => {
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController, public userSession: UserSession, public db: DB, public alertCtrl: AlertController, public events: Events) {
+
+    // this.changes = this.db.onChanges("set", (_changes) => {
+    //   this.getSets()
+    // })
+    console.log("constructor")
+    events.subscribe('sets:changed', (userData) => {
       this.getSets()
-    })
+    });
+  }
 
+  ionViewWillEnter() {
+    console.log("ionViewWillEnter")
     this.getSets()
   }
+
+  // ionViewWillLeave() {
+  //   this.changes.cancel()
+  // }
 
   getSets() {
     this.userSession.get().then((response) => {
@@ -50,9 +63,13 @@ export class SetPage {
         {
           text: 'Yes, I am sure',
           handler: () => {
-            this.db.deleteAll("card", { set_id: set._id }, () => {
-              this.db.delete(set._id)
+            this.db.delete(set._id, () => {
+              this.events.publish('sets:changed');
+              this.db.deleteAll("card", { set_id: set._id })
             })
+            // this.db.deleteAll("card", { set_id: set._id }, () => {
+            //   this.db.delete(set._id)
+            // })
           }
         }
       ]
