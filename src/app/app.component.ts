@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { Platform, Events, MenuController, Nav } from 'ionic-angular';
-import { StatusBar } from 'ionic-native';
 
 import { DB } from '../providers/db';
 import { UserSession } from '../providers/user_session';
@@ -24,9 +23,7 @@ export class MyApp {
 
   constructor(platform: Platform, public menu: MenuController, public userSession: UserSession, public events: Events, public db: DB) {
     platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      StatusBar.styleDefault();
+
     });
 
     this.menu = menu;
