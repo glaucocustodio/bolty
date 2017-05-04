@@ -82,6 +82,7 @@ export class CardPage {
       console.log("Buscando " + this.searchTerm)
 
       this.db.all("card", {
+        set_id: this.set._id,
         $or: [
           { front: { $regex: `.*?${this.searchTerm}.*?` } },
           { back: { $regex: `.*?${this.searchTerm}.*?` } }
